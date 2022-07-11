@@ -1,4 +1,4 @@
-FROM alpine:3.14
-RUN apk version -v
-RUN apk add nginx
-RUN apk add trivy
+FROM ubutu:22.04
+RUN apt-get update -v
+RUN apt-get install nginx
+RUN apt-get install trivy
