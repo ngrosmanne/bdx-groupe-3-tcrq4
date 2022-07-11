@@ -1,3 +1,4 @@
-FROM ubuntu:22.04
-RUN apt-get update && apt-get install docker -y
+FROM alpine
+RUN apt-get update
+
 CMD docker version
