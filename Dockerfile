@@ -6,6 +6,6 @@ CMD echo "-----------docker version---------------"
 CMD docker version 
 CMD "---------------------------------"
 
-RUN apt-get install nginx
+RUN apt-get install nginx -y
 #RUN apt-get install trivy
-#CMD ls /var/www/html
+CMD ls /var/www/html
