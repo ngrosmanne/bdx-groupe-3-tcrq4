@@ -1,7 +1,9 @@
+# image de base
 FROM nginx
-#RUN apt-get update
-#RUN rm -Rf /usr/share/nginx/html/*
-COPY ./nginx.conf /etc/nginx/nginx.conf
-COPY ./Application/* /usr/share/nginx/html/
+# Update 
+RUN apt-get update -yq
+# Copy de l'application du client sur l'image
+COPY ./Application /usr/share/nginx/html/
+# Exposition du port
 EXPOSE 80
-#ENTRYPOINT ["/usr/sbin/nginx", "-g", "daemon on;"]
+CMD ["/usr/sbin/nginx", "-g", "daemon off;"]
