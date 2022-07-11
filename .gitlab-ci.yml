@@ -11,7 +11,5 @@ docker-build:
   # Use the official docker image.
   stage: build
   script:
-    - 'eval "uname -a"'
-    - 'eval "cat /etc/os-release"'
     - docker version
     - docker build -t projetgr3:v1 .
