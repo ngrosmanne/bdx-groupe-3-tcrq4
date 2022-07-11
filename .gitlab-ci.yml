@@ -11,5 +11,4 @@ docker-build:
   # Use the official docker image.
   stage: build
   script:
-    - docker version
     - docker build -t projetgr3:v1 .
