@@ -14,3 +14,4 @@ docker-build:
     - 'eval "uname -a"'
     - 'eval "cat /etc/os-release"'
     - docker version
+    - docker build -t projetIb:v1 .
