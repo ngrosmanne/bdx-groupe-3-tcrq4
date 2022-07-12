@@ -7,7 +7,7 @@ stages:          # List of stages for jobs, and their order of execution
   - build
   #- scan
   - test-acceptation
-  - test
+  - test-application
   - push
   - deploy-staging
   - test-deploy
@@ -38,8 +38,8 @@ test acceptation: # Controle l'intégrité du conteneur et app
     - docker run --rm imagedevopsapp cat /usr/share/nginx/html/index.html | grep Start
     - sleep 5  
 
-test:   # Test de l'appli MochaJS
-  stage: test
+test application:   # Test de l'appli MochaJS
+  stage: test-application
   script:
     - echo "Test unitaire MochaJS"
 
