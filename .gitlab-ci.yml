@@ -34,11 +34,13 @@ build: # Construction de l'image avec Dockerfile
 test acceptation: # Controle l'intégrité du conteneur et app   
   stage: test-acceptation
   script:
-    - apk --no-cache add curl
     - docker load < imagedevopsapp.tar
     #- docker run --rm imagedevopsapp cat /usr/share/nginx/html/index.html | grep Start
     #- docker run -p 8080:80 --name devopsapp-staging imagedevopsapp curl localhost:8080
-    - sleep 5  
+    - docker run -d -p 80:5000 -e PORT=5000 --name webapp imagedevopsapp
+    - sleep 5
+    - apk --no-cache add curl
+    - curl "http://docker" | grep  "Start" 
 
 test application:   # Test de l'appli MochaJS
   stage: test-application
@@ -52,8 +54,10 @@ release-image:
     - docker tag imagedevopsapp "${IMAGE_NAME}:${CI_COMMIT_REF_NAME}"
     - docker tag imagedevopsapp "${IMAGE_NAME}:${CI_COMMIT_SHORT_SHA}"
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
-    - docker push "${IMAGE_NAME}:${CI_COMMIT_REF_NAME}"
-    - docker push "${IMAGE_NAME}:${CI_COMMIT_SHORT_SHA}"
+    #- docker push "${IMAGE_NAME}:${CI_COMMIT_REF_NAME}"
+    - docker tag imagedevopsapp:latest bidou974/imagedevopsapp:latest
+    - docker push bidou974/imagedevopsapp:latest
+    #- docker push "${IMAGE_NAME}:${CI_COMMIT_SHORT_SHA}"
 
 deploy-staging: 
   stage: deploy-staging
