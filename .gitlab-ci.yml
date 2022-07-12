@@ -28,7 +28,7 @@ test acceptation:
   stage: test-acceptation
   script:
     - docker load < imagedevopsapp.tar
-    - docker run -d -p 8080:80 --name devopsapp imagedevopsapp ls /usr/share/nginx/html/
+    - docker run --name devopsapp imagedevopsapp ls /usr/share/nginx/html/
     - sleep 5
     #- apk --no-cache add curl
     #- curl "http://docker" | grep  "Hello world!"    
