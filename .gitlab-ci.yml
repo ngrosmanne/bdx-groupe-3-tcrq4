@@ -67,12 +67,8 @@ test-deploy:
   stage: test-deploy
   script:
     - echo "test deploy"
-#test-deploy:
-#  stage: test-deploy
-#    - echo "curl sur http " 
-#  script:
-#    - apk --no-cache add curl
-#    - curl "https://devopsapp-staging.herokuapp.com" | grep "Start"  
+    - apk --no-cache add curl
+    - curl "https://devopsapp-staging.herokuapp.com" | grep "Start" 
 
 monitor:
   stage: monitor 
