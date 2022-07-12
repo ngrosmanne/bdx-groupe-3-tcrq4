@@ -35,12 +35,9 @@ test acceptation: # Controle l'intégrité du conteneur et app
   stage: test-acceptation
   script:
     - docker load < imagedevopsapp.tar
-    #- docker run --rm imagedevopsapp cat /usr/share/nginx/html/index.html | grep Start
-    #- docker run -p 8080:80 --name devopsapp-staging imagedevopsapp curl localhost:8080
     - docker run -d -p 80:80 -e PORT=80 --name webapp imagedevopsapp
     - sleep 5
     - apk --no-cache add curl
-    #- curl "http://docker" | grep  "Start" 
     - curl -I "http://docker"
 
 test application:   # Test de l'appli MochaJS
@@ -48,20 +45,15 @@ test application:   # Test de l'appli MochaJS
   script:
     - echo "Test unitaire MochaJS"
 
-release-image:
+release-image:  # Dépot de l'image sur Dockerhub
   stage: release-image
   script:
     - docker load < imagedevopsapp.tar
-    #- docker tag imagedevopsapp "${IMAGE_NAME}:${CI_COMMIT_REF_NAME}"
-    #- docker tag imagedevopsapp "${IMAGE_NAME}:${CI_COMMIT_SHORT_SHA}"
-    #- docker login -u bidou974 -p kotadoc974
     - docker login -u "$DOCKERHUB_USER" -p "$DOCKERHUB_PASSWORD" 
     - docker tag imagedevopsapp:latest bidou974/imagedevopsapp:latest
     - docker push bidou974/imagedevopsapp:latest
-    #- docker push "${IMAGE_NAME}:${CI_COMMIT_REF_NAME}"
-    #- docker push "${IMAGE_NAME}:${CI_COMMIT_SHORT_SHA}"
 
-deploy-staging: 
+deploy-staging: # Déploiement staging sur Heroku 
   stage: deploy-staging
   environment:
     name: staging
@@ -80,7 +72,7 @@ deploy-staging:
     - heroku container:push -a devopsapp-staging web
     - heroku container:release -a devopsapp-staging web
 
-test-deploy-staging: 
+test-deploy-staging: # Test du déploiement staging sur Heroku 
   stage: test-deploy-staging
   script:
     - echo "test deploy"
