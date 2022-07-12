@@ -10,7 +10,7 @@ stages:          # List of stages for jobs, and their order of execution
   - test-application
   - push
   - deploy-staging
-  - test-deploy
+  - test-deploy-staging
   - monitor
 
 build: # Construction de l'image avec Dockerfile
@@ -37,8 +37,7 @@ test acceptation: # Controle l'intégrité du conteneur et app
     - apk --no-cache add curl
     - docker load < imagedevopsapp.tar
     #- docker run --rm imagedevopsapp cat /usr/share/nginx/html/index.html | grep Start
-    - docker run -d -p 8080:80 --name devopsapp-staging imagedevopsapp
-    - curl localhost:8080
+    - docker run -d -p 8080:80 --name devopsapp-staging imagedevopsapp curl localhost:8080
     - sleep 5  
 
 test application:   # Test de l'appli MochaJS
@@ -69,7 +68,7 @@ deploy-staging:
     - heroku container:push -a devopsapp-staging web
     - heroku container:release -a devopsapp-staging web
 
-test-deploy: 
+test-deploy-staging: 
   stage: test-deploy
   script:
     - echo "test deploy"
