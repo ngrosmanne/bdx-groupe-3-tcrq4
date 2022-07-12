@@ -37,7 +37,7 @@ test acceptation: # Controle l'intégrité du conteneur et app
     - apk --no-cache add curl
     - docker load < imagedevopsapp.tar
     #- docker run --rm imagedevopsapp cat /usr/share/nginx/html/index.html | grep Start
-    - docker run -p 8080:80 --name devopsapp-staging imagedevopsapp curl localhost:8080
+    #- docker run -p 8080:80 --name devopsapp-staging imagedevopsapp curl localhost:8080
     - sleep 5  
 
 test application:   # Test de l'appli MochaJS
