@@ -23,13 +23,13 @@ build: # Construction de l'image avec Dockerfile
     paths:
     - imagedevopsapp.tar   
 
-.scan:   # scan de l'image via docker-scan 
-  stage: scan
-  script:
-    - echo "via docker-scan"
-    - cat /etc/os-release
-    - apk add docker-scan-plugin
-    - docker scan imagedevopsapp
+#scan:   # scan de l'image via docker-scan 
+#  stage: scan
+#  script:
+#    - echo "via docker-scan"
+#    - cat /etc/os-release
+#    - apk add docker-scan-plugin
+#    - docker scan imagedevopsapp
 
 test acceptation: # Controle l'intégrité du conteneur et app   
   stage: test-acceptation
