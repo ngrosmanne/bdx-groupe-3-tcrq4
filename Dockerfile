@@ -1,10 +1,9 @@
 # image de base
-FROM nginx
-# Update 
-RUN apt-get update -yq
-# Installation de docker
-RUN curl -fsSL https://get.docker.com -o get-docker.sh
-RUN sh get-docker.sh
+# Update de l'image
+RUN apt update
+RUN apt upgrade -y
+# Installation de Mocha
+RUN apt install mocha -y
 # Copy de l'application du client sur l'image
 COPY ./Application /usr/share/nginx/html/
 # Exposition du port
