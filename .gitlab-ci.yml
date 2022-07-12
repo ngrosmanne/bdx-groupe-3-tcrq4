@@ -22,7 +22,6 @@ test:   # Test de l'image avec docker-scan
   stage: test
   script:
     - echo "Test unitaire MochaJS"
-    - sleep 60
 
 scan:   # via docker run et curl
   stage: scan
