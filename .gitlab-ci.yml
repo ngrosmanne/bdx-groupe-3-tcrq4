@@ -27,7 +27,8 @@ scan:   # scan de l'image via docker-scan
   stage: scan
   script:
     - echo "via docker-scan"
-    - apt-get update && apt-get install docker-scan-plugin
+    - cat /etc/os-release
+    - yum install docker-scan-plugin
     - docker scan imagedevopsapp
 
 test acceptation: # Controle l'intégrité du conteneur et app   
