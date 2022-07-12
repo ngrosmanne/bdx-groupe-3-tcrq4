@@ -71,8 +71,8 @@ test-deploy:
     - apk --no-cache add curl
     - curl "https://devopsapp-staging.herokuapp.com" | grep "Start"  
 
-
 monitor:
   stage: monitor 
   script:
     - echo "monitoring prometheus -> grafana"
+    
