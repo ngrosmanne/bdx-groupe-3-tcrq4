@@ -35,7 +35,9 @@ test acceptation: # Controle l'intégrité du conteneur et app
   stage: test-acceptation
   script:
     - docker load < imagedevopsapp.tar
-    - docker run --rm imagedevopsapp cat /usr/share/nginx/html/index.html | grep Start
+    #- docker run --rm imagedevopsapp cat /usr/share/nginx/html/index.html | grep Start
+    - docker run -d -p 8080:80 --name devopsapp-staging imagedevopsapp
+    - curl locahost:8080
     - sleep 5  
 
 test application:   # Test de l'appli MochaJS
@@ -56,6 +58,7 @@ deploy-staging:
   only:
     - main
   script:
+    - docker load < imagedevopsapp.tar
     - docker run -d --name devopsapp-staging imagedevopsapp
     - apk --no-cache add npm
     - npm install -g heroku
