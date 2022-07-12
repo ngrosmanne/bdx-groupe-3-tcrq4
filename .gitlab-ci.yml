@@ -64,7 +64,6 @@ deploy-staging:
     - heroku container:release -a devopsapp-staging web
 
 test-deploy:
-  image: alpine
   stage: test-deploy 
     - echo "curl sur http " 
   script:
