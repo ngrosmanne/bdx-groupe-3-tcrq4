@@ -11,7 +11,7 @@ build: # Construction de l'image avec Dockerfile
   stage: build
   script:
     - echo "Construction de l'image avec Dockerfile"
-    - docker build -t devopsapp .
+    - docker build -t imagedevopsapp .
 
 test:   # Test de l'image avec docker-scan
   stage: test
