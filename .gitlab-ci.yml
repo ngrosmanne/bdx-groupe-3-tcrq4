@@ -65,7 +65,8 @@ deploy-staging:
 
 test-deploy: 
   stage: test-deploy
-
+  script:
+    - echo "test deploy"
 #test-deploy:
 #  stage: test-deploy
 #    - echo "curl sur http " 
