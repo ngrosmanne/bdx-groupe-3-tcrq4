@@ -69,7 +69,7 @@ deploy-staging:
     - heroku container:release -a devopsapp-staging web
 
 test-deploy-staging: 
-  stage: test-deploy
+  stage: test-deploy-staging
   script:
     - echo "test deploy"
     - apk --no-cache add curl
