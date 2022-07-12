@@ -21,13 +21,14 @@ build: # Construction de l'image avec Dockerfile
 test:   # Test de l'image avec docker-scan
   stage: test
   script:
-    - echo "Test de l'image avec docker-scan"
+    - echo "Test unitaire MochaJS"
     - sleep 60
 
 scan:   # via docker run et curl
   stage: scan
   script:
-    - echo "via docker run et curl"
+    - echo "via docker-scan"
+    - docker-scan imagedevopsapp
 
 push :   # via docker run et curl
   stage: push
