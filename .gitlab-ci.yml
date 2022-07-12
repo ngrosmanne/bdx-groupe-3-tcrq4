@@ -54,8 +54,8 @@ release-image:
     - docker load < imagedevopsapp.tar
     #- docker tag imagedevopsapp "${IMAGE_NAME}:${CI_COMMIT_REF_NAME}"
     #- docker tag imagedevopsapp "${IMAGE_NAME}:${CI_COMMIT_SHORT_SHA}"
-    - docker login -u bidou974 -p kotadoc974
-    #- docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+    #- docker login -u bidou974 -p kotadoc974
+    - docker login -u "$DOCKERHUB_USER" -p "$DOCKERHUB_PASSWORD" 
     - docker tag imagedevopsapp:latest bidou974/imagedevopsapp:latest
     - docker push bidou974/imagedevopsapp:latest
     #- docker push "${IMAGE_NAME}:${CI_COMMIT_REF_NAME}"
