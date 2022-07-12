@@ -29,7 +29,7 @@ scan:   # scan de l'image via docker-scan
     - echo "via docker-scan"
     - docker scan imagedevopsapp
 
-test acceptation: "Controle l'intégrité du conteneur et app"  # Controle de la presence de l'appli 
+test acceptation: # Controle l'intégrité du conteneur et app   
   stage: test-acceptation
   script:
     - docker load < imagedevopsapp.tar
