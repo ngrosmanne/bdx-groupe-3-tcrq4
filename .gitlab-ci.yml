@@ -5,8 +5,8 @@ services:
 
 stages:          # List of stages for jobs, and their order of execution
   - build
-  - test
   - test-acceptation
+  - test
   - scan
   - push
   - deploy
