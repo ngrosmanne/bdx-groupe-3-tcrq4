@@ -30,8 +30,8 @@ test acceptation:
     - docker load < imagedevopsapp.tar
     - docker run -d -p 8080:80 --name devopsapp imagedevopsapp
     - sleep 5
-  #  - apk --no-cache add curl
-  #  - curl "http://docker" | grep  "Hello world!"    
+    - apk --no-cache add curl
+    - curl "http://docker" | grep  "Hello world!"    
 
 test:   # Test de l'image avec docker-scan
   stage: test
