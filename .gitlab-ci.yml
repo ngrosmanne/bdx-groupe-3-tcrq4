@@ -63,7 +63,12 @@ deploy-staging:
     - heroku container:push -a devopsapp-staging web
     - heroku container:release -a devopsapp-staging web
 
-
+test-deploy:
+  stage: test-deployXX
+    - echo "curl sur http " 
+  script:
+    - apk --no-cache add curl
+    - curl "https://devopsapp-staging.herokuapp.com" | grep "Start"  
 
 monitor:
   stage: monitor 
