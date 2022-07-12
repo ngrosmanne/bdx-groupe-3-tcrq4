@@ -34,6 +34,7 @@ build: # Construction de l'image avec Dockerfile
 test acceptation: # Controle l'intégrité du conteneur et app   
   stage: test-acceptation
   script:
+    - apk --no-cache add curl
     - docker load < imagedevopsapp.tar
     #- docker run --rm imagedevopsapp cat /usr/share/nginx/html/index.html | grep Start
     - docker run -d -p 8080:80 --name devopsapp-staging imagedevopsapp
