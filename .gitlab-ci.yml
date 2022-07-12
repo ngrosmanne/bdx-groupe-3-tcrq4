@@ -27,6 +27,7 @@ scan:   # scan de l'image via docker-scan
   stage: scan
   script:
     - echo "via docker-scan"
+    - apt-get update && apt-get install docker-scan-plugin
     - docker scan imagedevopsapp
 
 test acceptation: # Controle l'intégrité du conteneur et app   
@@ -36,7 +37,7 @@ test acceptation: # Controle l'intégrité du conteneur et app
     - docker run --rm imagedevopsapp cat /usr/share/nginx/html/index.html | grep Start CSS
     - sleep 5  
 
-test:   # Test de l'appli avec docker-scan
+test:   # Test de l'appli MochaJS
   stage: test
   script:
     - echo "Test unitaire MochaJS"
