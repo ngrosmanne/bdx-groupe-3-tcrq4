@@ -6,6 +6,7 @@ services:
 stages:          # List of stages for jobs, and their order of execution
   - build
   - test
+  - test-acceptation
   - scan
   - push
   - deploy
@@ -17,13 +18,27 @@ build: # Construction de l'image avec Dockerfile
   script:
     - echo "Construction de l'image avec Dockerfile"
     - docker build -t imagedevopsapp .
+    - docker save imagedevopsapp > imagedevopsapp.tar
+  artifacts:
+    paths:
+    - imagedevopsapp.tar   
+
+test acceptation:
+  # Official docker image.
+  stage: test-acceptation
+  script:
+    - docker load < imagedevopsapp.tar
+    - docker run -d -p 8080:80 --name devopsapp imagedevopsapp
+    - sleep 5
+  #  - apk --no-cache add curl
+  #  - curl "http://docker" | grep  "Hello world!"    
 
 test:   # Test de l'image avec docker-scan
   stage: test
   script:
     - echo "Test unitaire MochaJS"
 
-scan:   # via docker run et curl
+scan:   # scan de l'image via docker-scan 
   stage: scan
   script:
     - echo "via docker-scan"
