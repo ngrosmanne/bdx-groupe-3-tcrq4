@@ -56,9 +56,11 @@ deploy-staging:
   only:
     - main
   script:
+    - docker run -d --name devopsapp-staging imagedevopsapp
     - apk --no-cache add npm
     - npm install -g heroku
     - heroku container:login
+    - heroku container:rm -a devopsapp-staging web
     - heroku create devopsapp-staging || echo "project already exist"
     - heroku container:push -a devopsapp-staging web
     - heroku container:release -a devopsapp-staging web
