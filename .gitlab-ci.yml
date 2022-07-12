@@ -35,7 +35,7 @@ test acceptation: # Controle l'intégrité du conteneur et app
   stage: test-acceptation
   script:
     - docker load < imagedevopsapp.tar
-    - docker run --rm imagedevopsapp cat /usr/share/nginx/html/index.html | grep Start CSS
+    - docker run --rm imagedevopsapp cat /usr/share/nginx/html/index.html | grep "Start CSS"
     - sleep 5  
 
 test:   # Test de l'appli MochaJS
