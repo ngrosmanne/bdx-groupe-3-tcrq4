@@ -54,7 +54,7 @@ deploy-staging:
     name: staging
     url: https://devopsapp-staging.herokuapp.com
   only:
-    - master
+    - main
   script:
     - apk --no-cache add npm
     - npm install -g heroku
@@ -64,9 +64,13 @@ deploy-staging:
     - heroku container:release -a devopsapp-staging web
 
 test-deploy:
+  image: alpine
   stage: test-deploy 
+    - echo "curl sur http " 
   script:
-    - echo "curl sur http ??"
+    - apk --no-cache add curl
+    - curl "https://devopsapp-staging.herokuapp.com" | grep "Start"  
+
 
 monitor:
   stage: monitor 
