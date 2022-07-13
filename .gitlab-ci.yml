@@ -64,10 +64,9 @@ deploy-staging: # Déploiement staging sur Heroku
   only:
     - main
   script:
-    - docker load < imagedevopsapp.tar
-    - docker image
+    #- docker load < imagedevopsapp.tar
+    #- docker images
     #- docker run -d -p 80:80 --name devopsapp-staging imagedevopsapp
-    - docker run -d --name devopsapp-staging imagedevopsapp
     - apk --no-cache add npm
     - npm install -g heroku
     - heroku container:login
