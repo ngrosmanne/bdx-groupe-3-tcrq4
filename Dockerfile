@@ -4,7 +4,7 @@ FROM nginx
 #RUN apt update
 #RUN apt upgrade -y
 # Installation de Mocha
-RUN apt install mocha -y
+#RUN apt install mocha -y
 # Installation de VIM / Nano
 #RUN apt install nano -y
 #RUN apt install vim -y
