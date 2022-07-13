@@ -17,7 +17,7 @@ COPY ./Application /usr/share/nginx/html/
 ##RUN adduser -D myuser
 ##USER myuser
 # Exposition du port
-# EXPOSE 80 
+EXPOSE 80 
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 CMD sed -i -e 's/$PORT/'"$PORT"'/g' /etc/nginx/conf.d/default.conf
 CMD ["/usr/sbin/nginx", "-g","daemon off;"]
