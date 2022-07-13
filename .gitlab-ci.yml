@@ -66,11 +66,12 @@ deploy-staging: # Déploiement staging sur Heroku
   script:
     - docker load < imagedevopsapp.tar
     - docker image
-    - docker run -d -p 80:80 --name devopsapp-staging imagedevopsapp
+    #- docker run -d -p 80:80 --name devopsapp-staging imagedevopsapp
+    - docker run -d --name devopsapp-staging imagedevopsapp
     - apk --no-cache add npm
     - npm install -g heroku
     - heroku container:login
-    - heroku container:rm -a devopsapp-staging web
+    #- heroku container:rm -a devopsapp-staging web
     - heroku create devopsapp-staging || echo "project already exist"
     - heroku container:push -a devopsapp-staging web
     - heroku container:release -a devopsapp-staging web
