@@ -40,7 +40,7 @@ test acceptation: # Controle l'intégrité du conteneur et app
     - docker run -d -p 80:80 -e PORT=80 --name webapp imagedevopsapp
     - sleep 5
     - apk --no-cache add curl
-#    - curl -I "http://docker"
+    - curl -I "http://docker"
 
 test application:   # Test de l'appli MochaJS
   stage: test-application
