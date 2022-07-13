@@ -16,6 +16,7 @@ COPY ./Application /usr/share/nginx/html/
 #COPY ./nginx.conf /etc/nginx/conf.d/default.conf
 #CMD sed -i -e 's/$PORT/'"$PORT"'/g' /etc/nginx/conf.d/default.conf
 # Exposition du port
-EXPOSE 80
+ENV LISTEN_PORT 8080
+EXPOSE 8080
 CMD ["/usr/sbin/nginx", "-g", "daemon off;"]
 
