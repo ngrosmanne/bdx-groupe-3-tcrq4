@@ -11,6 +11,8 @@ stages:          # List of stages for jobs, and their order of execution
   - release-image
   - deploy-staging
   - test-deploy-staging
+  - deploy-prod
+  - test-deploy-prod
   - monitor
 
 build: # Construction de l'image avec Dockerfile
@@ -75,9 +77,24 @@ deploy-staging: # Déploiement staging sur Heroku
 test-deploy-staging: # Test du déploiement staging sur Heroku 
   stage: test-deploy-staging
   script:
-    - echo "test deploy"
+    - echo "test deploy staging"
     - apk --no-cache add curl
     - curl "https://devopsapp-staging.herokuapp.com" | grep "Start" 
+
+deploy-prod: # Déploiement staging sur WMS 
+  stage: deploy-prod
+  environment:
+    name: prod
+    url: # A def
+  only:
+    - prod
+  script:
+    - echo "deploy sur prod"
+
+test-deploy-prod: # Test du déploiement staging sur Heroku 
+  stage: test-deploy-prod
+  script:
+    - echo "test deploy prod" 
 
 monitor:
   stage: monitor 
