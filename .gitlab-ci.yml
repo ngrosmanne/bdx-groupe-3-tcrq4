@@ -70,10 +70,10 @@ deploy-staging: # Déploiement staging sur Heroku
     - apk --no-cache add npm
     - npm install -g heroku
     - heroku container:login
-    #- heroku container:rm -a devopsapp-staging web
+    - heroku container:rm -a devopsapp-staging web
     - heroku create devopsapp-staging || echo "project already exist"
     - heroku container:push -a devopsapp-staging web
-    #- heroku container:release -a devopsapp-staging web
+    - heroku container:release -a devopsapp-staging web
     #- heroku logs --tail
 
 test-deploy-staging: # Test du déploiement staging sur Heroku 
