@@ -13,9 +13,6 @@ FROM nginx
 ## RUN sh get-docker.sh
 # Copy de l'application du client sur l'image
 COPY ./Application /usr/share/nginx/html/
-# création user
-##RUN adduser -D myuser
-##USER myuser
 # Exposition du port
 EXPOSE 80 
 COPY nginx.conf /etc/nginx/conf.d/default.conf
