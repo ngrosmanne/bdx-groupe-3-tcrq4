@@ -6,7 +6,7 @@ services:
 stages:          # List of stages for jobs, and their order of execution
   - build
   #- scan
-  - test-acceptation
+  #- test-acceptation
   - test-application
   - release-image
   - deploy-staging
@@ -33,7 +33,7 @@ build: # Construction de l'image avec Dockerfile
 #    - apk add docker-scan-plugin
 #    - docker scan imagedevopsapp
 
-test acceptation: # Controle l'intégrité du conteneur et app   
+.test acceptation: # Controle l'intégrité du conteneur et app   
   stage: test-acceptation
   script:
     - docker load < imagedevopsapp.tar
