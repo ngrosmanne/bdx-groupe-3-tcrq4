@@ -17,5 +17,5 @@ COPY ./Application /usr/share/nginx/html/
 ##RUN adduser -D myuser
 ##USER myuser
 # Exposition du port
-##EXPOSE 80
+EXPOSE 80
 CMD ["/usr/sbin/nginx", "-g", "daemon off;"]
