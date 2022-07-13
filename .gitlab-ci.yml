@@ -41,6 +41,7 @@ test acceptation: # Controle l'intégrité du conteneur et app
     - sleep 5
     - apk --no-cache add curl
     - curl -I "http://docker"
+    - curl "http://docker" | grep "Start Bootstrap"
 
 test application:   # Test de l'appli MochaJS
   stage: test-application
