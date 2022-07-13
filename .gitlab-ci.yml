@@ -37,7 +37,7 @@ test acceptation: # Controle l'intégrité du conteneur et app
   stage: test-acceptation
   script:
     - docker load < imagedevopsapp.tar
-    - docker run -d -p 80:80 --name webapp imagedevopsapp
+    - docker run -d -p 80:80 -e PORT=80 --name webapp imagedevopsapp
     - sleep 5
     - apk --no-cache add curl
     - curl -I "http://docker"
