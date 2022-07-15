@@ -45,6 +45,7 @@ release-image:  # Dépot de l'image sur Dockerhub
 test acceptation: # Controle l'intégrité du conteneur et app   
   stage: test-acceptation
   script:
+    - docker rm -f testimagedevopsapp || echo "no run start"
     - docker load < imagedevopsapp.tar
     - docker run -d -p 8081:80 --name testimagedevopsapp imagedevopsapp:latest
     - sleep 5
