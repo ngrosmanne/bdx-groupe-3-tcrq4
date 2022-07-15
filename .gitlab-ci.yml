@@ -6,7 +6,7 @@ services:
 stages:          # List of stages for jobs, and their order of execution
   - build
   #- scan
-  #- test-acceptation
+  - test-acceptation
   - test-application
   - release-image
   - deploy-staging
@@ -34,7 +34,7 @@ build: # Construction de l'image avec Dockerfile
 #    - apk add docker-scan-plugin
 #    - docker scan imagedevopsapp
 
-.test acceptation: # Controle l'intégrité du conteneur et app   
+test acceptation: # Controle l'intégrité du conteneur et app   
   stage: test-acceptation
   script:
     - docker load < imagedevopsapp.tar
@@ -71,12 +71,12 @@ deploy-staging: # Déploiement via runner #16440669   ##########################
     #- docker run -d -p 8080:80 nginx
     #- docker run -d -p 8080:80 test4
 
-.test-deploy-staging: # Test du déploiement staging sur Heroku 
+test-deploy-staging: # Test du déploiement staging sur Heroku 
   stage: test-deploy-staging
   script:
     - echo "test deploy staging"
-    - apk --no-cache add curl
-    - curl "https://devopsapp-staging.herokuapp.com" | grep "Start" 
+    - curl -I 192.168.203.87:8080
+
 
 .deploy-prod: # Déploiement staging sur WMS 
   stage: deploy-prod
