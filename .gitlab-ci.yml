@@ -57,7 +57,7 @@ stages:          # List of stages for jobs, and their order of execution
     - docker tag imagedevopsapp:latest bidou974/imagedevopsapp:latest
     - docker push bidou974/imagedevopsapp:latest
 
-deploy-staging: # Déploiement via runner #16440669
+deploy-staging: # Déploiement via runner #16440669   ##########################
   stage: deploy-staging
   #image: nginx
   environment:
@@ -67,8 +67,8 @@ deploy-staging: # Déploiement via runner #16440669
   script:
     #- docker load < imagedevopsapp.tar
     #- docker images
-    #- docker run -d -p 8080:80 --name devopsapp-staging imagedevopsapp
-    - docker run -d -p 8080:80 nginx
+    - docker run -d -p 8080:80 --name devopsapp-staging bidou974/imagedevopsapp
+    #- docker run -d -p 8080:80 nginx
 
 .test-deploy-staging: # Test du déploiement staging sur Heroku 
   stage: test-deploy-staging
