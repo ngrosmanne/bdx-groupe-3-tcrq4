@@ -6,9 +6,9 @@ services:
 stages:          # List of stages for jobs, and their order of execution
   - build
   #- scan
+  - release-image
   - test-acceptation
   - test-application
-  - release-image
   - deploy-staging
   - test-deploy-staging
   - deploy-prod
@@ -34,22 +34,6 @@ build: # Construction de l'image avec Dockerfile
 #    - apk add docker-scan-plugin
 #    - docker scan imagedevopsapp
 
-test acceptation: # Controle l'intégrité du conteneur et app   
-  stage: test-acceptation
-  script:
-    - docker load < imagedevopsapp.tar
-    - docker run -d -p 80:80 -e --name testimagedevopsapp imagedevopsapp
-    - sleep 5
-    - apk --no-cache add curl
-    - curl -I 192.168.203.87:8080
-    - curl curl -I 192.168.203.87:8080 | grep ">Start Bootstrap<"
-    - docker rm -f testimagedevopsapp
-
-.test application:   # Test de l'appli MochaJS
-  stage: test-application
-  script:
-    - echo "Test unitaire MochaJS"
-
 release-image:  # Dépot de l'image sur Dockerhub
   stage: release-image
   script:
@@ -57,6 +41,21 @@ release-image:  # Dépot de l'image sur Dockerhub
     - docker login -u "$DOCKERHUB_USER" -p "$DOCKERHUB_PASSWORD" 
     - docker tag imagedevopsapp:latest bidou974/imagedevopsapp:latest
     - docker push bidou974/imagedevopsapp:latest
+
+test acceptation: # Controle l'intégrité du conteneur et app   
+  stage: test-acceptation
+  script:
+    - docker run -d -p 8081:80 -e --name testimagedevopsapp bidou974/imagedevopsapp:latest
+    - sleep 5
+    - apk --no-cache add curl
+    - curl -I 192.168.203.87:8081
+    - curl curl -I 192.168.203.87:8081 | grep ">Start Bootstrap<"
+    - docker rm -f testimagedevopsapp
+
+.test application:   # Test de l'appli MochaJS
+  stage: test-application
+  script:
+    - echo "Test unitaire MochaJS"
 
 deploy-staging: # Déploiement via runner #16440669   ##########################
   stage: deploy-staging
