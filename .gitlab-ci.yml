@@ -51,7 +51,8 @@ test acceptation: # Controle l'intégrité du conteneur et app
     - sleep 5
     - apk --no-cache add curl
     - curl -I 192.168.203.87:8081
-    - curl -I 192.168.203.87:8081 | grep ">Start Bootstrap<"
+    - curl 192.168.203.87:8081 | grep ">Start Bootstrap<"
+    - sleep 5
     - docker rm -f testimagedevopsapp
 
 .test application:   # Test de l'appli MochaJS
