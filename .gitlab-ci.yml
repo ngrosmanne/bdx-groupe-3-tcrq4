@@ -1,88 +1,11 @@
-image: docker:latest
-services:
-  - name: docker:dind
-    alias: docker
+stages:
+- test
 
-stages:          # List of stages for jobs, and their order of execution
-  - build
-  #- scan
-  #- test-acceptation
-  #- test-application
-  #- release-image
-  - deploy-staging
-  - test-deploy-staging
-  - deploy-prod
-  - test-deploy-prod
-  - monitor
-
-build: # Construction de l'image avec Dockerfile
-  stage: build
+docker:test:
+  stage: test
+  tags:
+    - docker
+  before_script:
+    - docker --version
   script:
-    - echo "Construction de l'image avec Dockerfile"
-    - docker build -t imagedevopsapp .
-    - docker save imagedevopsapp > imagedevopsapp.tar
-  artifacts:
-    paths:
-    - imagedevopsapp.tar   
-
-#scan:   # scan de l'image via docker-scan 
-#  stage: scan
-#  script:
-#    - echo "via docker-scan"
-#    - cat /etc/os-release
-#    - apk add docker-scan-plugin
-#    - docker scan imagedevopsapp
-
-.test acceptation: # Controle l'intégrité du conteneur et app   
-  stage: test-acceptation
-  script:
-    - docker load < imagedevopsapp.tar
-    - docker run -d -p 80:80 -e PORT=80 --name webapp imagedevopsapp
-    - sleep 5
-    - apk --no-cache add curl
-    - curl -I "http://docker"
-    - curl "http://docker" | grep ">Start Bootstrap<"
-
-.test application:   # Test de l'appli MochaJS
-  stage: test-application
-  script:
-    - echo "Test unitaire MochaJS"
-
-
-deploy-staging: # Déploiement staging sur Heroku 
-  stage: deploy-staging
-  environment:
-    name: staging
-    url: https://devopsapp-staging.herokuapp.com
-  only:
-    - main
-  script:
-    docker run -d -p 8080:80 nginx  
-
-.test-deploy-staging: # Test du déploiement staging sur Heroku 
-  stage: test-deploy-staging
-  script:
-    - echo "test deploy staging"
-    - apk --no-cache add curl
-    - curl "https://devopsapp-staging.herokuapp.com" | grep "Start" 
-
-.deploy-prod: # Déploiement staging sur WMS 
-  stage: deploy-prod
-  environment:
-    name: prod
-    url: # A def
-  only:
-    - prod
-  script:
-    - echo "deploy sur prod"
-
-.test-deploy-prod: # Test du déploiement staging sur Heroku 
-  stage: test-deploy-prod
-  script:
-    - echo "test deploy prod" 
-
-.monitor:
-  stage: monitor 
-  script:
-    - echo "monitoring prometheus -> grafana"
-    
+    - docker ps
