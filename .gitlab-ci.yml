@@ -1,9 +1,4 @@
-image: docker:latest
-services:
-  - name: docker:dind
-    alias: docker
-    
-stages:
+ stages:
 - test
 
 docker:test:
