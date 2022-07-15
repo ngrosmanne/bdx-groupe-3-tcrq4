@@ -15,7 +15,7 @@ stages:          # List of stages for jobs, and their order of execution
   - test-deploy-prod
   - monitor
 
-build: # Construction de l'image avec Dockerfile
+.build: # Construction de l'image avec Dockerfile
   stage: build
   script:
     - echo "Construction de l'image avec Dockerfile"
@@ -59,13 +59,13 @@ build: # Construction de l'image avec Dockerfile
 
 deploy-staging: # Déploiement staging sur Heroku 
   stage: deploy-staging
-  image: nginx
+  #image: nginx
   environment:
     name: staging
   only:
     - main
   script:
-    - docker load < imagedevopsapp.tar
+    #- docker load < imagedevopsapp.tar
     #- docker images
     - docker run -d -p 8080:80 --name devopsapp-staging imagedevopsapp
 
