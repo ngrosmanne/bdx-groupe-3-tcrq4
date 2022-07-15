@@ -38,11 +38,12 @@ test acceptation: # Controle l'intégrité du conteneur et app
   stage: test-acceptation
   script:
     - docker load < imagedevopsapp.tar
-    - docker run -d -p 80:80 -e PORT=80 --name webapp imagedevopsapp
+    - docker run -d -p 80:80 -e --name testimagedevopsapp imagedevopsapp
     - sleep 5
     - apk --no-cache add curl
-    - curl -I "http://docker"
-    - curl "http://docker" | grep ">Start Bootstrap<"
+    - curl -I 192.168.203.87:8080
+    - curl curl -I 192.168.203.87:8080 | grep ">Start Bootstrap<"
+    - docker rm -f testimagedevopsapp
 
 .test application:   # Test de l'appli MochaJS
   stage: test-application
