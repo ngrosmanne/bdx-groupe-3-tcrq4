@@ -15,7 +15,7 @@ stages:          # List of stages for jobs, and their order of execution
   - test-deploy-prod
   - monitor
 
-.build: # Construction de l'image avec Dockerfile
+build: # Construction de l'image avec Dockerfile
   stage: build
   script:
     - echo "Construction de l'image avec Dockerfile"
