@@ -51,7 +51,6 @@ build: # Construction de l'image avec Dockerfile
 
 deploy-staging: # Déploiement staging sur Heroku 
   stage: deploy-staging
-  image: nginx
   environment:
     name: staging
     url: https://devopsapp-staging.herokuapp.com
@@ -60,14 +59,14 @@ deploy-staging: # Déploiement staging sur Heroku
   script:
     docker run -d -p 8080:80 nginx  
 
-test-deploy-staging: # Test du déploiement staging sur Heroku 
+.test-deploy-staging: # Test du déploiement staging sur Heroku 
   stage: test-deploy-staging
   script:
     - echo "test deploy staging"
     - apk --no-cache add curl
     - curl "https://devopsapp-staging.herokuapp.com" | grep "Start" 
 
-deploy-prod: # Déploiement staging sur WMS 
+.deploy-prod: # Déploiement staging sur WMS 
   stage: deploy-prod
   environment:
     name: prod
@@ -77,12 +76,12 @@ deploy-prod: # Déploiement staging sur WMS
   script:
     - echo "deploy sur prod"
 
-test-deploy-prod: # Test du déploiement staging sur Heroku 
+.test-deploy-prod: # Test du déploiement staging sur Heroku 
   stage: test-deploy-prod
   script:
     - echo "test deploy prod" 
 
-monitor:
+.monitor:
   stage: monitor 
   script:
     - echo "monitoring prometheus -> grafana"
