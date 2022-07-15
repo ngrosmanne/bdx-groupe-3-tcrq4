@@ -6,6 +6,7 @@ docker:test:
   tags:
     - docker
   before_script:
+    - apt-get install docker -y
     - docker --version
   script:
     - docker ps
