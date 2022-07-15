@@ -17,6 +17,7 @@ stages:          # List of stages for jobs, and their order of execution
 
 build: # Construction de l'image avec Dockerfile
   stage: build
+  image: nginx
   script:
     - echo "Construction de l'image avec Dockerfile"
     - docker build -t imagedevopsapp .
@@ -58,6 +59,7 @@ release-image:  # Dépot de l'image sur Dockerhub
 
 deploy-staging: # Déploiement staging sur Heroku 
   stage: deploy-staging
+  image: nginx
   environment:
     name: staging
     url: https://devopsapp-staging.herokuapp.com
