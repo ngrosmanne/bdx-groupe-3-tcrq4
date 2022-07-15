@@ -20,7 +20,7 @@ build: # Construction de l'image avec Dockerfile
   script:
     - echo "Construction de l'image avec Dockerfile" 
     - docker build -t imagedevopsapp .
-    - rm -f /var/lib/docker/volumes/runner-o3-kzgvp-project-37722816-concurrent-0-cache-c33bcaa1fd2c77edfc3893b41966cea8/_data/ngrosmanne/bdx-groupe-3-tcrq4/imagedevopsapp.tar
+    - rm -f /var/lib/docker/volumes/runner-o3-kzgvp-project-37722816-concurrent-0-cache-c33bcaa1fd2c77edfc3893b41966cea8/_data/ngrosmanne/bdx-groupe-3-tcrq4/imagedevopsapp.tar || echo "Atifacts not found"
     - docker save imagedevopsapp > imagedevopsapp.tar
   artifacts:
     paths:
@@ -50,7 +50,7 @@ test acceptation: # Controle l'intégrité du conteneur et app
     - sleep 5
     - apk --no-cache add curl
     - curl -I 192.168.203.87:8081
-    - curl curl -I 192.168.203.87:8081 | grep ">Start Bootstrap<"
+    - curl -I 192.168.203.87:8081 | grep ">Start Bootstrap<"
     - docker rm -f testimagedevopsapp
 
 .test application:   # Test de l'appli MochaJS
