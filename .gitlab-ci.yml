@@ -69,6 +69,7 @@ deploy-staging: # Déploiement staging sur Heroku
     #- docker images
     #- docker run -d -p 8080:80 --name devopsapp-staging imagedevopsapp
     - ls
+    - docker --version
 
 .test-deploy-staging: # Test du déploiement staging sur Heroku 
   stage: test-deploy-staging
