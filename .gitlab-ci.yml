@@ -57,7 +57,7 @@ stages:          # List of stages for jobs, and their order of execution
     - docker tag imagedevopsapp:latest bidou974/imagedevopsapp:latest
     - docker push bidou974/imagedevopsapp:latest
 
-deploy-staging: # Déploiement staging sur Heroku 
+deploy-staging: # Déploiement ############################################################""
   stage: deploy-staging
   #image: nginx
   environment:
