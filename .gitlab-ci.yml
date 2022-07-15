@@ -67,7 +67,7 @@ deploy-staging: # Déploiement via runner #16440669   ##########################
   script:
     #- docker load < imagedevopsapp.tar
     #- docker images
-    - docker run -d -p 8080:80 --name devopsapp-staging bidou974/imagedevopsapp
+    - docker run -d -p 8080:80 bidou974/imagedevopsapp
     #- docker run -d -p 8080:80 nginx
 
 .test-deploy-staging: # Test du déploiement staging sur Heroku 
