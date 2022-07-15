@@ -78,6 +78,7 @@ test-deploy-staging: # Test du déploiement staging sur Heroku
   stage: test-deploy-staging
   script:
     - echo "test deploy staging"
+    - apk --no-cache add curl
     - curl -I 192.168.203.87:8080
 
 
