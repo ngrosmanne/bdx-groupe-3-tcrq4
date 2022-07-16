@@ -57,7 +57,8 @@ build: # Construction de l'image avec Dockerfile
     - sleep 5
     - docker rm -f testimagedevopsapp
 
-test application:   # Test de l'appli MochaJS
+test application:   # Test de l'image
+  stage: test-acceptation
   image:
     name: docker.io/aquasec/trivy:latest
     entrypoint: [""]
