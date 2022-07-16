@@ -26,12 +26,14 @@ build: # Construction de l'image avec Dockerfile
     paths:
     - imagedevopsapp.tar   
 
-.scan:   # scan de l'image via docker scan 
+scan:   # scan de l'image via docker scan 
+  image: centos
   stage: scan
   script:
     - echo "Scan via docker-scan"
     #- apk add docker-scan-plugin
-    - apk add docker-scan-plugin
+    #- apk add docker-scan-plugin
+    - yum install docker-scan-plugin
     - docker scan imagedevopsapp
 
 release-image:  # Dépot de l'image sur Dockerhub
@@ -92,7 +94,7 @@ deploy-prod: # Déploiement staging sur WMS
     - apk --no-cache add npm
     - npm install -g heroku
     - heroku container:login
-    #- heroku container:rm -a devopsapp-staging web
+    - heroku container:rm -a devopsapp-staging web || echo "project not exist"
     - heroku create devopsapp-staging || echo "project already exist"
     - heroku container:push -a devopsapp-staging web
 
