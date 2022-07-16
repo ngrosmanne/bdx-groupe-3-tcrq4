@@ -60,7 +60,7 @@ test acceptation: # Controle l'intégrité du conteneur et app
   script:
     - echo "Test unitaire MochaJS"
 
-deploy-staging: # Déploiement via runner #16440669   ##########################
+deploy-staging: # Déploiement via runner #16440669 
   stage: deploy-staging
   #image: nginx
   environment:
@@ -68,13 +68,9 @@ deploy-staging: # Déploiement via runner #16440669   ##########################
   only:
     - main
   script:
-    #- docker load < imagedevopsapp.tar
-    #- docker images
     - docker run -d -p 8080:80 bidou974/imagedevopsapp
-    #- docker run -d -p 8080:80 nginx
-    #- docker run -d -p 8080:80 test4
 
-test-deploy-staging: # Test du déploiement staging sur Heroku 
+test-deploy-staging: # Test du déploiement staging sur runner 
   stage: test-deploy-staging
   script:
     - echo "test deploy staging"
