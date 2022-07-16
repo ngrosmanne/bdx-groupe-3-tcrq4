@@ -27,12 +27,13 @@ build: # Construction de l'image avec Dockerfile
     - imagedevopsapp.tar   
 
 scan:   # scan de l'image via docker scan 
-  image: alpine
+  image: ubuntu
   stage: scan
   script:
     - echo "Scan via docker-scan"
-    - apk add docker 
-    - apk add docker-scan-plugin
+    - apt-get update && apt-get install docker-scan-plugin
+    #- apk add docker 
+    #- apk add docker-scan-plugin
     #- apk add docker-scan-plugin
     #- yum install docker-scan-plugin
     #- cd /etc/yum.repos.d/
