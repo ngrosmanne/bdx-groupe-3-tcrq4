@@ -5,61 +5,106 @@ services:
 
 stages:          # List of stages for jobs, and their order of execution
   - build
+  #- scan
+  - release-image
   - test-acceptation
-  - test
-  - scan
-  - push
-  - deploy
-  - test-deploy
+  - test-application
+  - deploy-staging
+  - test-deploy-staging
+  - deploy-prod
+  - test-deploy-prod
   - monitor
 
 build: # Construction de l'image avec Dockerfile
   stage: build
   script:
-    - echo "Construction de l'image avec Dockerfile"
+    - echo "Construction de l'image avec Dockerfile" 
     - docker build -t imagedevopsapp .
+    - rm -f /var/lib/docker/volumes/runner-o3-kzgvp-project-37722816-concurrent-0-cache-c33bcaa1fd2c77edfc3893b41966cea8/_data/ngrosmanne/bdx-groupe-3-tcrq4/imagedevopsapp.tar || echo "Atifacts not found"
     - docker save imagedevopsapp > imagedevopsapp.tar
   artifacts:
     paths:
     - imagedevopsapp.tar   
 
-test acceptation:
-  # Official docker image.
-  stage: test-acceptation
-  script:
-    - docker load < imagedevopsapp.tar
-    - docker run -d -p 8080:80 --name devopsapp imagedevopsapp
-    - sleep 5
-    - apk --no-cache add curl
-    - curl "http://docker" | grep  "Hello world!"    
-
-test:   # Test de l'image avec docker-scan
-  stage: test
-  script:
-    - echo "Test unitaire MochaJS"
-
-scan:   # scan de l'image via docker-scan 
+.scan:   # scan de l'image via docker scan 
+  image: centos:7
   stage: scan
   script:
-    - echo "via docker-scan"
-    - docker-scan imagedevopsapp
+    - yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+    - yum install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+    - systemctl start docker
+    - docker scan imagedevopsapp
+    
 
-push :   # via docker run et curl
-  stage: push
+release-image:  # Dépot de l'image sur Dockerhub
+  stage: release-image
   script:
-    - echo "push de limage sur docker hub"
+    - docker load < imagedevopsapp.tar
+    - docker login -u "$DOCKERHUB_USER" -p "$DOCKERHUB_PASSWORD" 
+    - docker tag imagedevopsapp:latest bidou974/imagedevopsapp:latest
+    - docker push bidou974/imagedevopsapp:latest
 
-deploy: # Ansible via playbook 
-  stage: deploy 
+test acceptation: # Controle de l'intégrité du conteneur et application 
+  stage: test-acceptation
   script:
-    - echo "Ansible via playbook"
+    - docker rm -f testimagedevopsapp || echo "no run start"
+    - docker load < imagedevopsapp.tar
+    - docker run -d -p 8081:80 --name testimagedevopsapp imagedevopsapp:latest
+    - sleep 5
+    - apk --no-cache add curl
+    - curl -I 192.168.203.87:8081
+    - curl 192.168.203.87:8081 | grep ">Start Bootstrap<"
+    - sleep 5
+    - docker rm -f testimagedevopsapp
 
-test-deploy:
-  stage: test-deploy 
+test application:   # Vulnerability scan with trivy
+  stage: test-application
+  #image:
+    #name: docker.io/aquasec/trivy:latest
   script:
-    - echo "curl sur http ??"
+    - docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v caches:/root/.cache/ aquasec/trivy image bidou974/imagedevopsapp
 
-monitor:
+deploy-staging: # Déploiement via runner #16440669 
+  stage: deploy-staging
+  #image: nginx
+  environment:
+    name: staging
+  only:
+    - main
+  script:
+    - docker rm -f devopsapp || echo "Port 8080 free"
+    - docker run -d -p 8080:80 --name devopsapp bidou974/imagedevopsapp
+
+test-deploy-staging: # Test du déploiement staging sur runner 
+  stage: test-deploy-staging
+  environment:
+    name: test-deploy-staging
+  only:
+    - main
+  script:
+    - echo "test deploy staging"
+    - apk --no-cache add curl
+    - curl -I 192.168.203.87:8080
+
+.deploy-prod: # Déploiement staging sur WMS 
+  stage: deploy-prod
+  environment:
+    name: prod
+    url: https://devopsapp-staging.herokuapp.com
+  script:
+    - echo "deploy sur prod"
+    - apk --no-cache add npm
+    - npm install -g heroku
+    - heroku container:login
+    - heroku container:rm -a devopsapp-staging web || echo "project not exist"
+    - heroku create devopsapp-staging || echo "project already exist"
+    - heroku container:push -a devopsapp-staging web
+
+.test-deploy-prod: # Test du déploiement staging sur Heroku 
+  stage: test-deploy-prod
+  script:
+    - echo "test deploy prod" 
+
+.monitor:
   stage: monitor 
   script:
-    - echo "monitoring prometheus -> grafana"
