@@ -59,8 +59,8 @@ build: # Construction de l'image avec Dockerfile
 
 test application:   # Test de l'image
   stage: test-application
-  image:
-    name: docker.io/aquasec/trivy:latest
+  #image:
+    #name: docker.io/aquasec/trivy:latest
   script:
     - docker run -it -v /var/run/docker.sock:/var/run/docker.sock -v caches:/root/.cache/ aquasec/trivy image bidou974/imagedevopsapp
 
