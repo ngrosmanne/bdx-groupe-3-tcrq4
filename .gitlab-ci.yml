@@ -39,6 +39,7 @@ scan:   # scan de l'image via docker scan
     - sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*
     - yum update -y
     - yum install docker -y
+    - mkdir /etc/containers/nodocker
     - docker scan imagedevopsapp
 
 release-image:  # Dépot de l'image sur Dockerhub
@@ -64,8 +65,21 @@ test acceptation: # Controle l'intégrité du conteneur et app
 
 .test application:   # Test de l'appli MochaJS
   stage: test-application
+  image: node:lts-alpine
   script:
-    - echo "Test unitaire MochaJS"
+    - cd Application/
+    - apk add --update git
+    - apk --no-cache add g++ gcc libgcc libstdc++ linux-headers make python
+    - npm install --quiet node-gyp -g
+    - npm install
+    - npm rebuild bcrypt --build-from-source
+    - npm i mocha -g
+    - mocha ./Application/. --timeout 10000 --exit
+    - mocha ./Application/. --timeout 10000 --exit
+  cache:
+    key: "$CI_PROJECT_ID"
+    paths:
+      - ./node_modules/
 
 deploy-staging: # Déploiement via runner #16440669 
   stage: deploy-staging
