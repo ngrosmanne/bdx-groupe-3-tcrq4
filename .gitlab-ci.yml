@@ -5,7 +5,7 @@ services:
 
 stages:          # List of stages for jobs, and their order of execution
   - build
-  - scan
+  #- scan
   - release-image
   - test-acceptation
   - test-application
@@ -26,7 +26,7 @@ build: # Construction de l'image avec Dockerfile
     paths:
     - imagedevopsapp.tar   
 
-scan:   # scan de l'image via docker scan 
+.scan:   # scan de l'image via docker scan 
   stage: scan
   script:
     - echo "Scan via docker-scan"
@@ -73,20 +73,29 @@ deploy-staging: # Déploiement via runner #16440669
 
 test-deploy-staging: # Test du déploiement staging sur runner 
   stage: test-deploy-staging
+  environment:
+    name: test-deploy-staging
+  only:
+    - main
   script:
     - echo "test deploy staging"
     - apk --no-cache add curl
     - curl -I 192.168.203.87:8080
 
-.deploy-prod: # Déploiement staging sur WMS 
+deploy-prod: # Déploiement staging sur WMS 
   stage: deploy-prod
   environment:
     name: prod
-    url: # A def
-  only:
-    - prod
+    url: https://devopsapp-staging.herokuapp.com
   script:
     - echo "deploy sur prod"
+    - apk --no-cache add npm
+    - npm install -g heroku
+    - heroku container:login
+    #- heroku container:rm -a devopsapp-staging web
+    - heroku create devopsapp-staging || echo "project already exist"
+    - heroku container:push -a devopsapp-staging web
+
 
 .test-deploy-prod: # Test du déploiement staging sur Heroku 
   stage: test-deploy-prod
