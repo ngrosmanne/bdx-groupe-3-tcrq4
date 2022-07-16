@@ -26,7 +26,7 @@ build: # Construction de l'image avec Dockerfile
     paths:
     - imagedevopsapp.tar   
 
-scan:   # scan de l'image via docker scan 
+.scan:   # scan de l'image via docker scan 
   image: centos:7
   stage: scan
   script:
@@ -36,7 +36,7 @@ scan:   # scan de l'image via docker scan
     - docker scan imagedevopsapp
     
 
-release-image:  # Dépot de l'image sur Dockerhub
+.release-image:  # Dépot de l'image sur Dockerhub
   stage: release-image
   script:
     - docker load < imagedevopsapp.tar
@@ -44,7 +44,7 @@ release-image:  # Dépot de l'image sur Dockerhub
     - docker tag imagedevopsapp:latest bidou974/imagedevopsapp:latest
     - docker push bidou974/imagedevopsapp:latest
 
-test acceptation: # Controle l'intégrité du conteneur et app   
+.test acceptation: # Controle l'intégrité du conteneur et app   
   stage: test-acceptation
   script:
     - docker rm -f testimagedevopsapp || echo "no run start"
@@ -57,7 +57,7 @@ test acceptation: # Controle l'intégrité du conteneur et app
     - sleep 5
     - docker rm -f testimagedevopsapp
 
-.test application:   # Test de l'appli MochaJS
+test application:   # Test de l'appli MochaJS
   stage: test-application
   image: node:lts-alpine
   script:
