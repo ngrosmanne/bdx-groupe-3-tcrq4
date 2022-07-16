@@ -61,19 +61,7 @@ test application:   # Test de l'appli MochaJS
   stage: test-application
   image: node:lts-alpine
   script:
-    - cd Application/
-    - apk add --update git
-    - apk --no-cache add g++ gcc libgcc libstdc++ linux-headers make python
-    - npm install --quiet node-gyp -g
-    - npm install
-    - npm rebuild bcrypt --build-from-source
-    - npm i mocha -g
-    - mocha ./Application/. --timeout 10000 --exit
-    - mocha ./Application/. --timeout 10000 --exit
-  cache:
-    key: "$CI_PROJECT_ID"
-    paths:
-      - ./node_modules/
+    - npm install --global mocha
 
 deploy-staging: # Déploiement via runner #16440669 
   stage: deploy-staging
