@@ -5,7 +5,7 @@ services:
 
 stages:          # List of stages for jobs, and their order of execution
   - build
-  #- scan
+  - scan
   - release-image
   - test-acceptation
   - test-application
@@ -26,7 +26,7 @@ build: # Construction de l'image avec Dockerfile
     paths:
     - imagedevopsapp.tar   
 
-.scan:   # scan de l'image via docker scan 
+scan:   # scan de l'image via docker scan 
   image: centos
   stage: scan
   script:
