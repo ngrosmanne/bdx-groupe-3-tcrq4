@@ -27,32 +27,12 @@ build: # Construction de l'image avec Dockerfile
     - imagedevopsapp.tar   
 
 scan:   # scan de l'image via docker scan 
-  image: ubuntu
+  image: centos:7
   stage: scan
   script:
-    #- apt update
-    - apt-get update 2>/dev/null
-    - apt-get install curl
-    - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-    - add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
-    - apt update
-    - apt-cache policy docker-ce
-    - apt install docker-ce
-    - systemctl status docker
-
-    
-    - apt-get install docker-scan-plugin -y
-    #- apk add docker 
-    #- apk add docker-scan-plugin
-    #- apk add docker-scan-plugin
-    #- yum install docker-scan-plugin
-    #- cd /etc/yum.repos.d/
-    #- sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*
-    #- sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*
-    #- yum update -y
-    #- yum install docker-ce -y
-    #- mkdir /etc/containers/nodocker
+    - yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
     - docker scan imagedevopsapp
+    - yum install docker-ce docker-ce-cli containerd.io docker-compose-plugin
 
 release-image:  # Dépot de l'image sur Dockerhub
   stage: release-image
