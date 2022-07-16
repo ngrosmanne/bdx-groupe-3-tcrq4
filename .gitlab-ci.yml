@@ -31,6 +31,9 @@ scan:   # scan de l'image via docker scan
   script:
     - echo "Scan via docker-scan"
     #- apk add docker-scan-plugin
+    - mkdir -p ~/.docker/cli-plugins && \
+    - curl https://github.com/docker/scan-cli-plugin/releases/latest/download/docker-scan_linux_amd64 -L -s -S -o ~/.docker/cli-plugins/docker-scan &&\
+    - chmod +x ~/.docker/cli-plugins/docker-scan
     - docker scan imagedevopsapp
 
 release-image:  # Dépot de l'image sur Dockerhub
