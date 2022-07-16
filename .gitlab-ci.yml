@@ -32,6 +32,7 @@ scan:   # scan de l'image via docker scan
   script:
     - echo "Scan via docker-scan"
     - apk add docker 
+    - apk add docker-scan-plugin
     #- apk add docker-scan-plugin
     #- yum install docker-scan-plugin
     #- cd /etc/yum.repos.d/
