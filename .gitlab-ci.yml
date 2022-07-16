@@ -5,7 +5,7 @@ services:
 
 stages:          # List of stages for jobs, and their order of execution
   - build
-  #- scan
+  - scan
   - release-image
   - test-acceptation
   - test-application
@@ -35,7 +35,8 @@ build: # Construction de l'image avec Dockerfile
     - systemctl start docker
     - docker scan imagedevopsapp
     
-release-image:  # Dépot de l'image sur Dockerhub
+
+.release-image:  # Dépot de l'image sur Dockerhub
   stage: release-image
   script:
     - docker load < imagedevopsapp.tar
@@ -43,7 +44,7 @@ release-image:  # Dépot de l'image sur Dockerhub
     - docker tag imagedevopsapp:latest bidou974/imagedevopsapp:latest
     - docker push bidou974/imagedevopsapp:latest
 
-test acceptation: # Controle de l'intégrité du conteneur et application 
+.test acceptation: # Controle de l'intégrité du conteneur et application 
   stage: test-acceptation
   script:
     - docker rm -f testimagedevopsapp || echo "no run start"
@@ -108,5 +109,3 @@ deploy-prod: # Déploiement staging sur WMS
 .monitor:
   stage: monitor 
   script:
-    - echo "monitoring prometheus -> grafana"
-    
