@@ -58,11 +58,11 @@ build: # Construction de l'image avec Dockerfile
     - docker rm -f testimagedevopsapp
 
 test application:   # Test de l'image
-  stage: test-acceptation
+  stage: test-application
   image:
     name: docker.io/aquasec/trivy:latest
   script:
-    - docker run -it -v /var/run/docker.sock:/var/run/docker.sock  -v caches:/root/.cache/ aquasec/trivy image bidou974/imagedevopsapp
+    - docker run -it -v /var/run/docker.sock:/var/run/docker.sock -v caches:/root/.cache/ aquasec/trivy image bidou974/imagedevopsapp
 
 deploy-staging: # Déploiement via runner #16440669 
   stage: deploy-staging
