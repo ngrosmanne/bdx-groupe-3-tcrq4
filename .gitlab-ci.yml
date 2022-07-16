@@ -5,7 +5,7 @@ services:
 
 stages:          # List of stages for jobs, and their order of execution
   - build
-  #- scan
+  - scan
   - release-image
   - test-acceptation
   - test-application
@@ -26,13 +26,12 @@ build: # Construction de l'image avec Dockerfile
     paths:
     - imagedevopsapp.tar   
 
-#scan:   # scan de l'image via docker-scan 
-#  stage: scan
-#  script:
-#    - echo "via docker-scan"
-#    - cat /etc/os-release
-#    - apk add docker-scan-plugin
-#    - docker scan imagedevopsapp
+scan:   # scan de l'image via docker scan 
+  stage: scan
+  script:
+    - echo "Scan via docker-scan"
+    #- apk add docker-scan-plugin
+    - docker scan imagedevopsapp
 
 release-image:  # Dépot de l'image sur Dockerhub
   stage: release-image
@@ -68,7 +67,8 @@ deploy-staging: # Déploiement via runner #16440669
   only:
     - main
   script:
-    - docker run -d -p 8080:80 bidou974/imagedevopsapp
+    - docker rm -f devopsapp || echo "Port 8080 free"
+    - docker run -d -p 8080:80 --name devopsapp bidou974/imagedevopsapp
 
 test-deploy-staging: # Test du déploiement staging sur runner 
   stage: test-deploy-staging
@@ -76,7 +76,6 @@ test-deploy-staging: # Test du déploiement staging sur runner
     - echo "test deploy staging"
     - apk --no-cache add curl
     - curl -I 192.168.203.87:8080
-
 
 .deploy-prod: # Déploiement staging sur WMS 
   stage: deploy-prod
