@@ -36,7 +36,7 @@ build: # Construction de l'image avec Dockerfile
     - docker scan imagedevopsapp
     
 
-.release-image:  # Dépot de l'image sur Dockerhub
+release-image:  # Dépot de l'image sur Dockerhub
   stage: release-image
   script:
     - docker load < imagedevopsapp.tar
@@ -44,7 +44,7 @@ build: # Construction de l'image avec Dockerfile
     - docker tag imagedevopsapp:latest bidou974/imagedevopsapp:latest
     - docker push bidou974/imagedevopsapp:latest
 
-.test acceptation: # Controle de l'intégrité du conteneur et application 
+test acceptation: # Controle de l'intégrité du conteneur et application 
   stage: test-acceptation
   script:
     - docker rm -f testimagedevopsapp || echo "no run start"
@@ -57,14 +57,14 @@ build: # Construction de l'image avec Dockerfile
     - sleep 5
     - docker rm -f testimagedevopsapp
 
-.test application:   # Vulnerability scan with trivy
+test application:   # Vulnerability scan with trivy
   stage: test-application
   #image:
     #name: docker.io/aquasec/trivy:latest
   script:
     - docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v caches:/root/.cache/ aquasec/trivy image bidou974/imagedevopsapp
 
-.deploy-staging: # Déploiement via runner #16440669 
+deploy-staging: # Déploiement via runner #16440669 
   stage: deploy-staging
   #image: nginx
   environment:
@@ -75,7 +75,7 @@ build: # Construction de l'image avec Dockerfile
     - docker rm -f devopsapp || echo "Port 8080 free"
     - docker run -d -p 8080:80 --name devopsapp bidou974/imagedevopsapp
 
-.test-deploy-staging: # Test du déploiement staging sur runner 
+test-deploy-staging: # Test du déploiement staging sur runner 
   stage: test-deploy-staging
   environment:
     name: test-deploy-staging
