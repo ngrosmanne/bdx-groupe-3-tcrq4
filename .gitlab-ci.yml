@@ -33,7 +33,8 @@ scan:   # scan de l'image via docker scan
     - echo "Scan via docker-scan"
     #- apk add docker-scan-plugin
     #- apk add docker-scan-plugin
-    - yum install docker-scan-plugin
+    #- yum install docker-scan-plugin
+    - yum update -y
     - docker scan imagedevopsapp
 
 release-image:  # Dépot de l'image sur Dockerhub
